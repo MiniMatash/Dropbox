@@ -1,5 +1,8 @@
 package com.minimatash.servlets;
 
+import com.minimatash.servlets.loginSystem.LoginServlet;
+import com.minimatash.servlets.loginSystem.RegistrationServlet;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

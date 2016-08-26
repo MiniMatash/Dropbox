@@ -8,9 +8,9 @@ import java.util.*;
 
 public class FileWork {
     public static void createUserFolder(String login) throws IOException {
-        Path userPath = Paths.get("/home/user/dropbox/"+login);
+        Path userPath = Paths.get("/home/"+System.getProperty("user.name")+"/dropbox/"+login);
         Files.createDirectory(userPath);
-        Path firstFilePath = Paths.get("/home/user/dropbox/"+login+"/README.txt");
+        Path firstFilePath = Paths.get("/home/"+System.getProperty("user.name")+"/dropbox/"+login+"/README.txt");
         Files.createFile(firstFilePath);
     }
 

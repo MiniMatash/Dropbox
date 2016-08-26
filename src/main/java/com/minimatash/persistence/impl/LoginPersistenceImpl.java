@@ -17,7 +17,7 @@ public class LoginPersistenceImpl implements LoginPersistence {
 
     public Boolean getLog(String login, String password) throws SQLException {
         connection = getConnection();
-        String selectUserSQL = "Select * from Login WHERE login = ? AND password = ?";
+        String selectUserSQL = "Select * from loginPage WHERE login = ? AND password = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(selectUserSQL);
         preparedStatement.setString(1,login);
         preparedStatement.setString(2,password);
@@ -28,7 +28,7 @@ public class LoginPersistenceImpl implements LoginPersistence {
     @Override
     public Boolean registerLog(String login, String password) throws SQLException, IOException {
         connection = getConnection();
-        String selectUserSQL = "Select * from Login WHERE login = ? AND password = ?";
+        String selectUserSQL = "Select * from loginPage WHERE login = ? AND password = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(selectUserSQL);
         preparedStatement.setString(1,login);
         preparedStatement.setString(2,password);
@@ -36,7 +36,7 @@ public class LoginPersistenceImpl implements LoginPersistence {
         if(rs.next()){
             return false;
         }else{
-            String addUserSQL = "INSERT INTO Login (" + "login,password" + ") VALUES (?,?)";
+            String addUserSQL = "INSERT INTO loginPage (" + "login,password" + ") VALUES (?,?)";
             PreparedStatement preparedStatement2 = connection.prepareStatement(addUserSQL);
             preparedStatement2.setString(1,login);
             preparedStatement2.setString(2,password);

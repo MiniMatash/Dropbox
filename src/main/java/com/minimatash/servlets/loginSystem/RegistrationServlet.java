@@ -1,4 +1,4 @@
-package com.minimatash.servlets;
+package com.minimatash.servlets.loginSystem;
 
 import com.minimatash.fileStructure.FileWork;
 import com.minimatash.service.LoginService;
@@ -25,15 +25,21 @@ public class RegistrationServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response){
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+        String login = request.getParameter("registerLogin");
+        String password = request.getParameter("registerPassword");
         try {
             if(loginService.registerLog(login,password)){
-                response.sendRedirect("/");
+                response.sendRedirect("/mainPage");
+            } else{
+                request.setAttribute("failedLogin", login);
+                request.setAttribute("failedPassword", password);
+                request.getRequestDispatcher("/WEB-INF/jsp/registration.jsp").forward(request,response);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ServletException e) {
             e.printStackTrace();
         }
     }

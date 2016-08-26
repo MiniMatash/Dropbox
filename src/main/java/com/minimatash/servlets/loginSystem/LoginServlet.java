@@ -1,4 +1,4 @@
-package com.minimatash.servlets;
+package com.minimatash.servlets.loginSystem;
 
 import com.minimatash.service.LoginService;
 import com.minimatash.service.impl.LoginServiceImpl;
@@ -14,7 +14,7 @@ public class LoginServlet extends HttpServlet {
     private LoginService loginService = new LoginServiceImpl();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession(false)==null) {
+        if(request.getSession().getAttribute("login")==null) {
             request.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(request, response);
         }else {
             try {
@@ -31,6 +31,8 @@ public class LoginServlet extends HttpServlet {
             try {
                 if (loginService.getLog(login, password)) {
                     request.getSession();
+                    request.getSession().setAttribute("login",login);
+                    request.getSession().setAttribute("password",password);
                     response.sendRedirect("/mainPage");
                 }
             } catch (SQLException e) {
