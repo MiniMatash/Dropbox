@@ -15,23 +15,22 @@ public class LoginPersistenceImpl implements LoginPersistence {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/dropbox","root","qwerty");
     }
 
-    public Boolean getLog(String login, String password) throws SQLException {
+    public Boolean getLog(String login, Integer password) throws SQLException {
         connection = getConnection();
         String selectUserSQL = "Select * from loginPage WHERE login = ? AND password = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(selectUserSQL);
         preparedStatement.setString(1,login);
-        preparedStatement.setString(2,password);
+        preparedStatement.setInt(2,password);
         ResultSet rs = preparedStatement.executeQuery();
         return rs.next();
     }
 
     @Override
-    public Boolean registerLog(String login, String password) throws SQLException, IOException {
+    public Boolean registerLog(String login, Integer password) throws SQLException, IOException {
         connection = getConnection();
-        String selectUserSQL = "Select * from loginPage WHERE login = ? AND password = ?";
+        String selectUserSQL = "Select * from loginPage WHERE login = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(selectUserSQL);
         preparedStatement.setString(1,login);
-        preparedStatement.setString(2,password);
         ResultSet rs = preparedStatement.executeQuery();
         if(rs.next()){
             return false;
@@ -39,7 +38,7 @@ public class LoginPersistenceImpl implements LoginPersistence {
             String addUserSQL = "INSERT INTO loginPage (" + "login,password" + ") VALUES (?,?)";
             PreparedStatement preparedStatement2 = connection.prepareStatement(addUserSQL);
             preparedStatement2.setString(1,login);
-            preparedStatement2.setString(2,password);
+            preparedStatement2.setInt(2,password);
             preparedStatement2.execute();
             FileWork.createUserFolder(login);
             return true;

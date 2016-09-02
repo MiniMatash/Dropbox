@@ -14,11 +14,11 @@ public class LoginServiceImpl implements LoginService {
 
     LoginPersistence loginPersistence = new LoginPersistenceImpl();
 
-    public Boolean getLog(String login, String password) throws SQLException {
+    public Boolean getLog(String login, Integer password) throws SQLException {
         return loginPersistence.getLog(login, password);
     }
 
-    public Boolean registerLog(String login, String password) throws SQLException, IOException {
+    public Boolean registerLog(String login, Integer password) throws SQLException, IOException {
         return loginPersistence.registerLog(login, password);
     }
 }

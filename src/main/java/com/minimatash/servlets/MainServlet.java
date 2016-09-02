@@ -1,6 +1,9 @@
 package com.minimatash.servlets;
 
+import com.minimatash.servlets.fileWork.CreateFolderServlet;
+import com.minimatash.servlets.fileWork.GetFileTreeServlet;
 import com.minimatash.servlets.loginSystem.LoginServlet;
+import com.minimatash.servlets.loginSystem.LogoutServlet;
 import com.minimatash.servlets.loginSystem.RegistrationServlet;
 
 import javax.servlet.ServletException;
@@ -17,12 +20,19 @@ public class MainServlet extends HttpServlet {
     {
         servletMap.put("/",new LoginServlet());
         servletMap.put("/registration",new RegistrationServlet());
-        servletMap.put("/mainPage", new MainPageServlet());
+        servletMap.put("/logout", new LogoutServlet());
+        servletMap.put("/home", new MainPageServlet());
         servletMap.put("/getFileTree", new GetFileTreeServlet());
+        servletMap.put("/createFolder", new CreateFolderServlet());
     }
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpServlet httpServlet = servletMap.get(request.getRequestURI());
+        HttpServlet httpServlet;
+        if(request.getRequestURI().indexOf("/",1)!=-1) {
+            httpServlet = servletMap.get(request.getRequestURI().substring(0, request.getRequestURI().indexOf("/", 1)));
+        }else{
+            httpServlet = servletMap.get(request.getRequestURI());
+        }
         if(httpServlet!=null)
             httpServlet.service(request,response);
     }
