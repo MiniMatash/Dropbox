@@ -7,18 +7,18 @@ function getFileTree() {
             var table = $("<table id='tableBody'>").appendTo($("#filesBody"));
             $(table).append($('<tr><th width="10%"></th><th width="20%">Name</th><th width="15%">Changed date</th><th width="10%">Authorization level</th></tr>'));
             if (window.location.pathname != "/home")
-                $("<tr>").appendTo(table)
-                    .append('<span><a href="' + window.location.href.substring(0, window.location.href.lastIndexOf("/")) + '">...</a></span>');
+                $('<tr class="elem" style="text-align: center; height: 40px">').appendTo(table)
+                    .append('<td><span><a href="' + window.location.href.substring(0, window.location.href.lastIndexOf("/")) + '"><h3>...</h3></a></span>');
             for (var file in files) {
-                var tr = $("<tr>").appendTo(table)
+                var tr = $('<tr class="elem" ondblclick="window.location.href=\"'+ window.location.pathname + "/" + files[file].name +'\" ">').appendTo(table);
                 $(tr).append('<td><img src="/images/files/' + files[file].type + '.png">');
                 if (files[file].type == "folder") {
-                    $(tr).append($('<td style="text-align: center"><a href="' + window.location.pathname + "/" + files[file].name + '">' + files[file].name + '</a>'));
+                    $(tr).append($('<td style="text-align: center"><a href="' + window.location.pathname + "/" + files[file].name + '"><h3>' + files[file].name + '</h3></a>'));
                 } else {
-                    $(tr).append($('<td style="text-align: center">' + files[file].name + ''));
+                    $(tr).append($('<td style="text-align: center"><h3>' + files[file].name + '</h3>'));
                 }
-                $(tr).append($('<td>' + files[file].modificationDate + ''));
-                $(tr).append($('<td>' + "--" + ''));
+                $(tr).append($('<td style="text-align: center"><h3>' + files[file].modificationDate + '</h3>'));
+                $(tr).append($('<td style="text-align: center"><h3>' + "--" + '</h3>'));
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {

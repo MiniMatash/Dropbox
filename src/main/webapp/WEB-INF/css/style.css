@@ -23,3 +23,7 @@
 #filesBody{
     top:10%;
 }
+
+.elem:hover {
+    background-color: lightgrey;
+}
