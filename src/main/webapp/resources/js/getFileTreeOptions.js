@@ -10,14 +10,24 @@ function createFolderDialog() {
 }
 
 function createFolder() {
+/*
     var value = JSON.stringify($("#folderName").val());
+*/
     $.ajax({
         url:"/createFolder",
         method:"POST",
-        data:{folderName:value},
-        dataType:"json",
-        success: function () {
-            $( ".createFolder" ).dialog( "close" );
+        data:{folderName:$("#folderName").val(), currentLocation:window.location.pathname},
+        success: function (result) {
+            if(result=="success") {
+                $(".createFolder").dialog("close");
+                getFileTree();
+            }else {
+                $('<h3 style="color:red">'+result+'</h3>').appendTo($(".createFolder"));
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
         }
     })
 }

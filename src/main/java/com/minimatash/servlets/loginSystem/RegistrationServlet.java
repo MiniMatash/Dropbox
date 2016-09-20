@@ -39,6 +39,7 @@ public class RegistrationServlet extends HttpServlet {
                 request.getSession();
                 request.getSession().setAttribute("login",login);
                 request.getSession().setAttribute("password",password);
+                request.getSession().setAttribute("homePath","/home/"+System.getProperty("user.name")+"/dropbox/"+login);
                 response.sendRedirect("/home");
             } else{
                 request.setAttribute("failedLogin", login);

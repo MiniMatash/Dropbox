@@ -32,4 +32,13 @@ public class FileWork{
         }
         return result;
     }
+
+    public static String createFolder(String path) throws IOException {
+        if(!Files.exists(Paths.get(path))){
+            Files.createDirectory(Paths.get(path));
+            return "success";
+        }else{
+            return "folder already exist";
+        }
+    }
 }

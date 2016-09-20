@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="header">
-    <a href="./mainPage">
+    <a href="./home">
         <div id="homeButton"></div>
     </a>
     <div id="headerBody"><h2>Dropbox</h2></div>

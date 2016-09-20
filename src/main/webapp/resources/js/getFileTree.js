@@ -1,4 +1,5 @@
 function getFileTree() {
+    $("#tableBody").empty();
     $.ajax({
         url: "/getFileTree",
         method: "GET",
@@ -7,8 +8,9 @@ function getFileTree() {
             var table = $("<table id='tableBody'>").appendTo($("#filesBody"));
             $(table).append($('<tr><th width="10%"></th><th width="20%">Name</th><th width="15%">Changed date</th><th width="10%">Authorization level</th></tr>'));
             if (window.location.pathname != "/home")
-                $('<tr class="elem" style="text-align:center; height: 40px">').appendTo(table)
-                    .append('<td><span><a href="' + window.location.href.substring(0, window.location.href.lastIndexOf("/")) + '"><h3>...</h3></a></span>');
+                $('<tr class="elem" style="text-align:center; height: 40px" ondblclick="doubleClickTreeWalker(\''+
+                    window.location.href.substring(0,window.location.href.lastIndexOf("/"))+'\')">').appendTo(table)
+                    .append('<td colspan="4"><span><a href="' + window.location.href.substring(0, window.location.href.lastIndexOf("/")) + '"><h3>...</h3></a></span>');
             for (var file in files) {
                 var tr;
                 var link =window.location.href + '/' + files[file].name;
