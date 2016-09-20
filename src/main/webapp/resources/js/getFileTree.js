@@ -7,10 +7,16 @@ function getFileTree() {
             var table = $("<table id='tableBody'>").appendTo($("#filesBody"));
             $(table).append($('<tr><th width="10%"></th><th width="20%">Name</th><th width="15%">Changed date</th><th width="10%">Authorization level</th></tr>'));
             if (window.location.pathname != "/home")
-                $('<tr class="elem" style="text-align: center; height: 40px">').appendTo(table)
+                $('<tr class="elem" style="text-align:center; height: 40px">').appendTo(table)
                     .append('<td><span><a href="' + window.location.href.substring(0, window.location.href.lastIndexOf("/")) + '"><h3>...</h3></a></span>');
             for (var file in files) {
-                var tr = $('<tr class="elem" ondblclick="window.location.href=\"'+ window.location.pathname + "/" + files[file].name +'\" ">').appendTo(table);
+                var tr;
+                var link =window.location.href + '/' + files[file].name;
+                if(files[file].type=="folder") {
+                    tr = $('<tr class="elem" ondblclick="doubleClickTreeWalker(\''+link+'\')">').appendTo(table);
+                }else{
+                    tr = $('<tr class="elem">').appendTo(table);
+                }
                 $(tr).append('<td><img src="/images/files/' + files[file].type + '.png">');
                 if (files[file].type == "folder") {
                     $(tr).append($('<td style="text-align: center"><a href="' + window.location.pathname + "/" + files[file].name + '"><h3>' + files[file].name + '</h3></a>'));
@@ -26,4 +32,8 @@ function getFileTree() {
             alert(thrownError);
         }
     })
+}
+
+function doubleClickTreeWalker(a) {
+    window.location.href = a;
 }
