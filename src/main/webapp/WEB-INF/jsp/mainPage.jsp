@@ -17,8 +17,8 @@
     <div id="headerBody"><h2>Dropbox</h2></div>
     <button id="logout" style="position:absolute;left: 90%;" onclick="logout()">Logout</button>
 </div>
-<div id="fileTreeOptions"></div>
 <div id="fileOptions"></div>
+<div id="fileTreeOptions"></div>
 <div id="filesBody"></div>
 </body>
 

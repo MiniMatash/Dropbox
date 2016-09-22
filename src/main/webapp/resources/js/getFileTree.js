@@ -28,6 +28,12 @@ function getFileTree() {
                 $(tr).append($('<td style="text-align: center"><h3>' + files[file].modificationDate + '</h3>'));
                 $(tr).append($('<td style="text-align: center"><h3>' + "--" + '</h3>'));
             }
+            $(".elem").on("click",function(){
+                $(".elem").removeAttr("id");
+                $(this).attr("id","selected");
+                $('#fileTreeOptions').empty()
+                .append($('<button onclick="deleteElement()">Delete</button>'))
+            });
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -38,4 +44,8 @@ function getFileTree() {
 
 function doubleClickTreeWalker(a) {
     window.location.href = a;
+}
+
+function deleteElement() {
+    $("#selected").attr("ondblclick");
 }

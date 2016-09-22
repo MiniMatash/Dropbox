@@ -35,20 +35,14 @@ public class LoginServlet extends HttpServlet {
                     request.getSession();
                     request.getSession().setAttribute("login",login);
                     request.getSession().setAttribute("password",password);
-                    request.getSession().setAttribute("homePath","/home/"+System.getProperty("user.name")+"/dropbox/"+login);
+                    request.getSession().setAttribute("homePath",System.getProperty("user.home")+"/dropbox/"+login);
                     response.sendRedirect("/home");
                 } else{
                     request.setAttribute("failedLogin", login);
                     request.setAttribute("failedPassword", password);
                     request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request,response);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (ServletException e) {
+            } catch (SQLException | IOException | NoSuchAlgorithmException | ServletException e) {
                 e.printStackTrace();
             }
     }
