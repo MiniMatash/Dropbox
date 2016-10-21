@@ -1,6 +1,7 @@
 package com.minimatash.servlets;
 
 import com.minimatash.servlets.fileWork.CreateFolderServlet;
+import com.minimatash.servlets.fileWork.DeleteElementServlet;
 import com.minimatash.servlets.fileWork.GetFileTreeServlet;
 import com.minimatash.servlets.loginSystem.LoginServlet;
 import com.minimatash.servlets.loginSystem.LogoutServlet;
@@ -24,6 +25,7 @@ public class MainServlet extends HttpServlet {
         servletMap.put("/home", new MainPageServlet());
         servletMap.put("/getFileTree", new GetFileTreeServlet());
         servletMap.put("/createFolder", new CreateFolderServlet());
+        servletMap.put("/deleteElement", new DeleteElementServlet());
     }
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,5 +37,9 @@ public class MainServlet extends HttpServlet {
         }
         if(httpServlet!=null)
             httpServlet.service(request,response);
+        else{
+            httpServlet = servletMap.get("/");
+            httpServlet.service(request,response);
+        }
     }
 }

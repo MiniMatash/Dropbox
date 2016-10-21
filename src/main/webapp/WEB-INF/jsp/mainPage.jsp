@@ -18,7 +18,7 @@
     <button id="logout" style="position:absolute;left: 90%;" onclick="logout()">Logout</button>
 </div>
 <div id="fileOptions"></div>
-<div id="fileTreeOptions"></div>
+<div id="fileTreeOptions" style="height: 50px"></div>
 <div id="filesBody"></div>
 </body>
 

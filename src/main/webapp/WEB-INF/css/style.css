@@ -37,6 +37,15 @@
     background-color: lightskyblue;
 }
 
+.upper:hover{
+    background-color: lightskyblue;
+}
+
 #selected{
     background-color: blue;
+}
+
+.optionElem{
+    width:90px;
+    display:inline-block;
 }

@@ -41,4 +41,13 @@ public class FileWork{
             return "folder already exist";
         }
     }
+
+    public static String deleteFolder(String path) throws IOException {
+        if(Files.exists(Paths.get(path))){
+            Files.delete(Paths.get(path));
+            return "success";
+        }else{
+            return "error";
+        }
+    }
 }

@@ -17,7 +17,10 @@ public class LoginServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(request.getSession().getAttribute("login")==null) {
-            request.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(request, response);
+            if(request.getRequestURI().equals("/"))
+                request.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(request, response);
+            else
+                response.sendRedirect("/");
         }else {
             try {
                 response.sendRedirect("/home");
