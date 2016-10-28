@@ -13,7 +13,6 @@ function createFolderDialog() {
     $( ".createFolder" ).dialog()
 }
 
-
 function uploadFileDialog() {
     $( ".uploadFile" ).dialog()
 }
@@ -40,10 +39,14 @@ function createFolder() {
 
 
 function uploadFile() {
+    var data = new FormData();
+    jQuery.each(jQuery('#file')[0].files, function(i, file) {
+        data.append('file-'+i, file);
+    });
     $.ajax({
         url:"/uploadFile",
         method:"POST",
-        data:{file:$("fileName").val(), currentLocation:window.location.pathname},
+        data:{file:data, currentLocation:window.location.pathname},
         success: function (result) {
             if(result=="success") {
                 $(".uploadFile").dialog("close");
