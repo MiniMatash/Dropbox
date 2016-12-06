@@ -3,18 +3,22 @@ function getFileTreeOptions() {
         .append(('<div class="ui-dialog createFolder" hidden><h3>Folder name</h3><input type="text" id="folderName">' +
         '<button onclick="createFolder()">Submit</button> '))
         .append(('<div class="optionElem"><button onclick="createFolderDialog()" title="Create folder"><img src="/images/treeOptions/createFolder.png"></button>'))
-        .append(('<div class="ui-dialog uploadFile" hidden><h3>Upload File</h3><input type="file" id="fileName">' +
+        .append(('<div class="ui-dialog uploadFile" hidden><h3>Upload file</h3><input type="file" id="file" name="myFile">' +
         '<button onclick="uploadFile()">Submit</button> '))
-        .append(('<div class="optionElem"><button onclick="uploadFileDialog()" title="Create folder"><img src="/images/treeOptions/addFile.png"></button>'))
+        .append(('<div class="optionElem"><button onclick="uploadFileDialog()" title="Upload file"><img src="/images/treeOptions/addFile.png"></button>'))
 
 }
 
 function createFolderDialog() {
-    $( ".createFolder" ).dialog()
+    $( ".createFolder" ).dialog({
+        modal: true
+    })
 }
 
 function uploadFileDialog() {
-    $( ".uploadFile" ).dialog()
+    $( ".uploadFile" ).dialog({
+        modal: true
+    })
 }
 
 function createFolder() {
@@ -39,14 +43,15 @@ function createFolder() {
 
 
 function uploadFile() {
+    var xhr = new XMLHttpRequest();
     var data = new FormData();
-    jQuery.each(jQuery('#file')[0].files, function(i, file) {
-        data.append('file-'+i, file);
-    });
-    $.ajax({
+    data.append("file", $("#file")[0].files[0]);
+    xhr.open("POST", "/uploadFile", true);
+    xhr.send(data);
+    /*$.ajax({
         url:"/uploadFile",
+        data:{currentLocation:window.location.pathname,file:sendFile},
         method:"POST",
-        data:{file:data, currentLocation:window.location.pathname},
         success: function (result) {
             if(result=="success") {
                 $(".uploadFile").dialog("close");
@@ -59,6 +64,6 @@ function uploadFile() {
             alert(xhr.status);
             alert(thrownError);
         }
-    })
+    })*/
 
 }
