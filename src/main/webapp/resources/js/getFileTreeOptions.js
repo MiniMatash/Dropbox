@@ -2,10 +2,13 @@ function getFileTreeOptions() {
     $("<div class='options'>").appendTo($("#fileOptions"))
         .append(('<div class="ui-dialog createFolder" hidden><h3>Folder name</h3><input type="text" id="folderName">' +
         '<button onclick="createFolder()">Submit</button> '))
-        .append(('<div class="optionElem"><button onclick="createFolderDialog()" title="Create folder"><img src="/images/treeOptions/createFolder.png"></button>'))
-        .append(('<div class="ui-dialog uploadFile" hidden><h3>Upload file</h3><input type="file" id="file" name="myFile">' +
-        '<button onclick="uploadFile()">Submit</button> '))
-        .append(('<div class="optionElem"><button onclick="uploadFileDialog()" title="Upload file"><img src="/images/treeOptions/addFile.png"></button>'))
+        .append(('<div class="optionElem"><button onclick="createFolderDialog()" title="Create folder">' +
+        '<img src="/images/treeOptions/createFolder.png"></button>'))
+        .append(('<div class="ui-dialog uploadFile" hidden><form method="POST" enctype="multipart/form-data" action="/uploadFile">' +
+        '<h3>Upload file</h3><input type="file" id="file" name="myFile"><input type="hidden" id="pathFile" value="'+window.location.pathname+'">' +
+        '<button onclick="uploadFile()">Submit</button></form> '))
+        .append(('<div class="optionElem"><button onclick="uploadFileDialog()" title="Upload file"><img src="/images/treeOptions/addFile.png">' +
+        '</button>'))
 
 }
 
@@ -43,14 +46,14 @@ function createFolder() {
 
 
 function uploadFile() {
-    var xhr = new XMLHttpRequest();
     var data = new FormData();
     data.append("file", $("#file")[0].files[0]);
-    xhr.open("POST", "/uploadFile", true);
-    xhr.send(data);
-    /*$.ajax({
+    data.append("path", $("#pathFile")[0].value);
+    $.ajax({
         url:"/uploadFile",
-        data:{currentLocation:window.location.pathname,file:sendFile},
+        data:data,
+        processData: false,
+        contentType: false,
         method:"POST",
         success: function (result) {
             if(result=="success") {
@@ -64,6 +67,6 @@ function uploadFile() {
             alert(xhr.status);
             alert(thrownError);
         }
-    })*/
+    })
 
 }
