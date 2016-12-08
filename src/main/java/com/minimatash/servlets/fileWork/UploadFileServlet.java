@@ -2,14 +2,13 @@ package com.minimatash.servlets.fileWork;
 
 import com.minimatash.fileStructure.FileWork;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
+import java.io.*;
 import java.util.List;
 
 public class UploadFileServlet extends HttpServlet {
@@ -24,21 +23,11 @@ public class UploadFileServlet extends HttpServlet {
                 ServletFileUpload upload = new ServletFileUpload(factory);
 
                 List<FileItem> items = upload.parseRequest(request);
-                String currentLocation = null;
-                for (FileItem elem : items) {
-                    if (elem.isFormField() && elem.getFieldName().equals("path")) {
-                        currentLocation = elem.getString();
-                        String path = request.getSession().getAttribute("homePath") + currentLocation;
-                        File repository = new File(path);
-                        factory.setRepository(repository);
-                    }
-                    else{
-
-                    }
-                }
-
+                String path = request.getSession().getAttribute("homePath").toString();
+                String result = FileWork.uploadFile(items,path);
+                response.setHeader("uploadResult",result);
             }
-        } catch (FileUploadException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
