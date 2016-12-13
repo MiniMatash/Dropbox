@@ -4,12 +4,15 @@ function getFileTreeOptions() {
         '<button onclick="createFolder()">Submit</button> '))
         .append(('<div class="optionElem"><button onclick="createFolderDialog()" title="Create folder">' +
         '<img src="/images/treeOptions/createFolder.png"></button>'))
-        .append(('<div class="ui-dialog uploadFile" hidden><form method="POST" enctype="multipart/form-data" action="/uploadFile">' +
+        .append(('<div class="ui-dialog uploadFile" hidden><form id="uploadFileForm" method="POST" enctype="multipart/form-data" action="/uploadFile">' +
         '<h3>Upload file</h3><input type="file" id="file" name="myFile"><input type="hidden" id="pathFile" value="'+window.location.pathname+'">' +
-        '<button onclick="uploadFile()">Submit</button></form> '))
+        '<input class="submit" type="submit" value="Submit"/></form>'))
         .append(('<div class="optionElem"><button onclick="uploadFileDialog()" title="Upload file"><img src="/images/treeOptions/addFile.png">' +
-        '</button>'))
-
+        '</button>'));
+    $('#uploadFileForm').submit(function () {
+        uploadFile();
+        return false;
+    });
 }
 
 function createFolderDialog() {

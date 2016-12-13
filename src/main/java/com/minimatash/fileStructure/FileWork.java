@@ -66,7 +66,10 @@ public class FileWork {
             }
         }
         if (fileItem != null) {
-            file = new File(path +"/"+ fileItem.getName());
+            String filePath = path +"/"+ fileItem.getName();
+            if(new File(filePath).exists())
+                return "File with name"+ fileItem.getName() +"already exist";
+            file = new File(filePath);
             fileItem.write(file);
             return "Upload successful";
         }

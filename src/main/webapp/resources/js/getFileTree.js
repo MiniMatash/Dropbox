@@ -19,6 +19,7 @@ function getFileTree() {
                 } else {
                     tr = $('<tr class="elem">').appendTo(table);
                 }
+
                 $(tr).append('<td><img src="/images/files/' + files[file].type + '.png">');
                 if (files[file].type == "folder") {
                     $(tr).append($('<td style="text-align: center"><a id="path" href="' + window.location.pathname + "/" + files[file].name + '"><h3>' + files[file].name + '</h3></a>'));
@@ -28,16 +29,11 @@ function getFileTree() {
                 $(tr).append($('<td style="text-align: center"><h3>' + files[file].modificationDate + '</h3>'));
                 $(tr).append($('<td style="text-align: center"><h3>' + "--" + '</h3>'));
             }
-            $(".elem,.upper").on("click", function () {
-                ;
-                $(".elem,.upper").removeAttr("id");
+            $(".elem").on("click", function () {
+                $(".elem").removeAttr("id");
                 $(this).attr("id", "selected");
                 $('#fileTreeOptions').empty()
                     .append($('<button id="deleteButton"onclick="deleteElement()"><div class="deleteElement">Delete</div></button>'))
-            });
-            $(".upper").on("click", function () {
-                $(".upper").removeAttr("id");
-                $(this).attr("id", "selected");
             });
         },
         error: function (xhr, ajaxOptions, thrownError) {

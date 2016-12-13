@@ -15,9 +15,7 @@ public class MainPageServlet extends HttpServlet {
             }else{
                 response.sendRedirect("/");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ServletException e) {
+        } catch (IOException | ServletException e) {
             e.printStackTrace();
         }
     }
