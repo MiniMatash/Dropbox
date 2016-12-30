@@ -16,6 +16,12 @@ public class FileWork {
         Files.createFile(firstFilePath);
     }
 
+    public static Boolean checkExistence(String url){
+        File dir = new File(url);
+        File[] files = dir.listFiles();
+        return files != null;
+    }
+
     public static List<Map<String, String>> getFileTree(String url) throws IOException {
         List<Map<String, String>> result = new ArrayList<>();
         File dir = new File(url);
@@ -68,10 +74,10 @@ public class FileWork {
         if (fileItem != null) {
             String filePath = path +"/"+ fileItem.getName();
             if(new File(filePath).exists())
-                return "File with name"+ fileItem.getName() +"already exist";
+                return "File with name "+ fileItem.getName() +" already exist";
             file = new File(filePath);
             fileItem.write(file);
-            return "Upload successful";
+            return "success";
         }
         return "Something wrong, contact administrator";
     }

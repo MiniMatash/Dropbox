@@ -31,5 +31,4 @@
 <script type="text/javascript" src="/resources/js/getFileTree.js"></script>
 <script type="text/javascript" src="/resources/js/getFileTreeOptions.js"></script>
 <script type="text/javascript" src="/resources/js/logout.js"></script>
-<script type="text/javascript" src="/resources/js/createFolder.js"></script>
 </html>

@@ -14,15 +14,20 @@ public class GetFileTreeServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
             List<Map<String,String>> files;
-            if(!request.getParameter("path").equals("/home")) {
-                files = FileWork.getFileTree("/home/" + System.getProperty("user.name") + "/dropbox/" + request.getSession().getAttribute("login")+request.getParameter("path").substring(5));
-            } else{
-                files = FileWork.getFileTree("/home/" + System.getProperty("user.name") + "/dropbox/" + request.getSession().getAttribute("login"));
+            String path = "/home/" + System.getProperty("user.name") + "/dropbox/" + request.getSession().getAttribute("login");
+            if(FileWork.checkExistence(path+request.getParameter("path").substring(5))) {
+                if (!request.getParameter("path").equals("/home")) {
+                    files = FileWork.getFileTree(path + request.getParameter("path").substring(5));
+                } else {
+                    files = FileWork.getFileTree(path);
+                }
+                String json = new Gson().toJson(files);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(json);
+            }else{
+                response.sendRedirect("/");
             }
-            String json = new Gson().toJson(files);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(json);
         }catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,28 +1,23 @@
 function getFileTreeOptions() {
-    $("<div class='options'>").appendTo($("#fileOptions"))
+    $("<dssureions'>").appendTo($("#fileOptions"))
         .append(('<div class="ui-dialog createFolder" hidden><h3>Folder name</h3><input type="text" id="folderName">' +
         '<button onclick="createFolder()">Submit</button> '))
-        .append(('<div class="optionElem"><button onclick="createFolderDialog()" title="Create folder">' +
+        .append(('<div class="optionElem"><button onclick="openDialog(\'.createFolder\')" title="Create folder">' +
         '<img src="/images/treeOptions/createFolder.png"></button>'))
         .append(('<div class="ui-dialog uploadFile" hidden><form id="uploadFileForm" method="POST" enctype="multipart/form-data" action="/uploadFile">' +
         '<h3>Upload file</h3><input type="file" id="file" name="myFile"><input type="hidden" id="pathFile" value="'+window.location.pathname+'">' +
         '<input class="submit" type="submit" value="Submit"/></form>'))
-        .append(('<div class="optionElem"><button onclick="uploadFileDialog()" title="Upload file"><img src="/images/treeOptions/addFile.png">' +
-        '</button>'));
+        .append(('<div class="optionElem"><button onclick="openDialog(\'.uploadFile\')" title="Upload file"><img src="/images/treeOptions/addFile.png">' +
+        '</button>'))
+        .append(('<div class="deleteElement" hidden>Are you sure you want to delete it?</div>'));
     $('#uploadFileForm').submit(function () {
         uploadFile();
         return false;
     });
 }
 
-function createFolderDialog() {
-    $( ".createFolder" ).dialog({
-        modal: true
-    })
-}
-
-function uploadFileDialog() {
-    $( ".uploadFile" ).dialog({
+function openDialog(name) {
+    $(name).dialog({
         modal: true
     })
 }
@@ -33,12 +28,7 @@ function createFolder() {
         method:"POST",
         data:{folderName:$("#folderName").val(), currentLocation:window.location.pathname},
         success: function (result) {
-            if(result=="success") {
-                $(".createFolder").dialog("close");
-                getFileTree();
-            }else {
-                $('<h3 style="color:red">'+result+'</h3>').appendTo($(".createFolder"));
-            }
+            reload(".createFolder",result);
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -59,12 +49,7 @@ function uploadFile() {
         contentType: false,
         method:"POST",
         success: function (result) {
-            if(result=="success") {
-                $(".uploadFile").dialog("close");
-                getFileTree();
-            }else {
-                $('<h3 style="color:red">'+result+'</h3>').appendTo($(".uploadFile"));
-            }
+            reload(".uploadFile",result.result);
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -72,4 +57,54 @@ function uploadFile() {
         }
     })
 
+}
+
+function deleteElement() {
+    var path;
+    if ($("#selected").find("#path").attr("href") != undefined)
+        path = $("#selected").find("#path").attr("href");
+    else
+        path = window.location.pathname+"/"+$("#selected").find("#fileName")[0].innerHTML;
+    $("deleteElement").removeAttr("hidden");
+    $(".deleteElement").dialog({
+        buttons: [
+            {
+                text: "Ok",
+                click: function() {
+                    $.ajax({
+                        url: "/deleteElement",
+                        method: "POST",
+                        data: {currentLocation: path},
+                        success: function (result) {
+                            reload(".deleteElement",result);
+                            if (result.result == "success") {
+                                $("#deleteButton").hide();
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
+                        }
+                    })
+                }
+            },
+            {
+                text:"Cancel",
+                click: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        ]
+    });
+}
+
+function reload(dialogClass,result) {
+    if(result=="success") {
+        $(dialogClass).dialog("close");
+        $('#filesBody').empty();
+        $('#fileTreeOptions').empty();
+        getFileTree();
+    }else {
+        $('<h3 style="color:red">'+result+'</h3>').appendTo($(dialogClass));
+    }
 }
