@@ -30,7 +30,7 @@ public class FileWork {
             Map<String, String> elem = new HashMap<>();
             elem.put("name", file.getName());
             if (file.getName().contains(".")) {
-                elem.put("type", file.getName().substring(file.getName().indexOf(".") + 1));
+                elem.put("type", file.getName().substring(file.getName().lastIndexOf(".") + 1));
             } else {
                 elem.put("type", "folder");
             }

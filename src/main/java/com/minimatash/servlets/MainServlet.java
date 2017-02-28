@@ -1,9 +1,7 @@
 package com.minimatash.servlets;
 
-import com.minimatash.servlets.fileWork.CreateFolderServlet;
-import com.minimatash.servlets.fileWork.DeleteElementServlet;
-import com.minimatash.servlets.fileWork.GetFileTreeServlet;
-import com.minimatash.servlets.fileWork.UploadFileServlet;
+import com.minimatash.fileStructure.FileWork;
+import com.minimatash.servlets.fileWork.*;
 import com.minimatash.servlets.loginSystem.LoginServlet;
 import com.minimatash.servlets.loginSystem.LogoutServlet;
 import com.minimatash.servlets.loginSystem.RegistrationServlet;
@@ -18,30 +16,32 @@ import java.util.Map;
 
 public class MainServlet extends HttpServlet {
 
+    public static final String dropboxPath = "/home/" + System.getProperty("user.name") + "/dropbox/" ;
+
     Map<String, HttpServlet> servletMap = new HashMap<String, HttpServlet>();
+
     {
-        servletMap.put("/",new LoginServlet());
-        servletMap.put("/registration",new RegistrationServlet());
+        servletMap.put("/", new LoginServlet());
+        servletMap.put("/registration", new RegistrationServlet());
         servletMap.put("/logout", new LogoutServlet());
         servletMap.put("/home", new MainPageServlet());
         servletMap.put("/getFileTree", new GetFileTreeServlet());
         servletMap.put("/createFolder", new CreateFolderServlet());
         servletMap.put("/deleteElement", new DeleteElementServlet());
         servletMap.put("/uploadFile", new UploadFileServlet());
+        servletMap.put("/downloadFile", new DownloadFileServlet());
     }
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpServlet httpServlet;
-        if(request.getRequestURI().indexOf("/",1)!=-1) {
-            httpServlet = servletMap.get(request.getRequestURI().substring(0, request.getRequestURI().indexOf("/", 1)));
-        }else{
-            httpServlet = servletMap.get(request.getRequestURI());
+        HttpServlet httpServlet = servletMap.get("/");
+        String uri = request.getRequestURI();
+        if(request.getSession().getAttribute("login") != null) {
+            if (uri.lastIndexOf("/") != 0) {
+                httpServlet = servletMap.get(uri.substring(0, uri.indexOf("/", 1)));
+            } else {
+                httpServlet = servletMap.get(uri);
+            }
         }
-        if(httpServlet!=null)
-            httpServlet.service(request,response);
-        else{
-            httpServlet = servletMap.get("/");
-            httpServlet.service(request,response);
-        }
+        httpServlet.service(request, response);
     }
 }

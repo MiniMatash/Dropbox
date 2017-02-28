@@ -24,7 +24,7 @@ function getFileTree() {
                 if (files[file].type == "folder") {
                     $(tr).append($('<td style="text-align: center"><a id="path" href="' + window.location.pathname + "/" + files[file].name + '"><h3 style="display: inline-block;">' + files[file].name + '</h3></a>'));
                 } else {
-                    $(tr).append($('<td style="text-align: center"><h3 id="fileName">' + files[file].name + '</h3>'));
+                    $(tr).append($('<td style="text-align: center"><h3 id="fileName" onclick="OpenFile()">' + files[file].name + '</h3>'));
                 }
                 $(tr).append($('<td style="text-align: center"><h3>' + files[file].modificationDate + '</h3>'));
                 $(tr).append($('<td style="text-align: center"><h3>' + "--" + '</h3>'));
@@ -32,7 +32,11 @@ function getFileTree() {
             $(".elem").on("click", function () {
                 $(".elem").removeAttr("id");
                 $(this).attr("id", "selected");
-                $('#fileTreeOptions').empty()
+                $('#fileTreeOptions')
+                    .empty()
+                    .append($('<button class="downloadButton"><a href="/downloadFile'+window.location.pathname+'/'
+                        +$("#selected").find("#fileName")[0].innerHTML+'" download="'+$("#selected").find("#fileName")[0].innerHTML
+                        +'">Download</a></button>'))
                     .append($('<button id="deleteButton" onclick="deleteElement()">Delete</button>'))
             });
         },
@@ -45,4 +49,9 @@ function getFileTree() {
 
 function doubleClickTreeWalker(a) {
     window.location.href = a;
+}
+
+function OpenFile() {
+    window.location='/downloadFile'+window.location.pathname+'/'
+    +$("#selected").find("#fileName")[0].innerHTML;
 }
