@@ -1,6 +1,7 @@
 package com.minimatash.fileStructure;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +31,13 @@ public class FileWork {
             Map<String, String> elem = new HashMap<>();
             elem.put("name", file.getName());
             if (file.getName().contains(".")) {
-                elem.put("type", file.getName().substring(file.getName().lastIndexOf(".") + 1));
+                String type =  Files.probeContentType(Paths.get(file.getAbsolutePath()));
+                if(type.contains("application")){
+                    type = type.substring(type.indexOf("/")+1);
+                }else{
+                    type = type.substring(0,type.indexOf("/"));
+                }
+                elem.put("type",type);
             } else {
                 elem.put("type", "folder");
             }
@@ -50,9 +57,13 @@ public class FileWork {
         }
     }
 
-    public static String deleteFolder(String path) throws IOException {
+    public static String deleteElement(String path) throws IOException {
         if (Files.exists(Paths.get(path))) {
-            Files.delete(Paths.get(path));
+            if(new File(path).isDirectory()){
+                FileUtils.deleteDirectory(new File(path));
+            }else {
+                Files.delete(Paths.get(path));
+            }
             return "success";
         } else {
             return "error";
@@ -80,5 +91,14 @@ public class FileWork {
             return "success";
         }
         return "Something wrong, contact administrator";
+    }
+
+    public static String moveElement(String sourceFolder, String destinationFolder, String fileName){
+        try {
+            FileUtils.moveFileToDirectory(new File(sourceFolder + "/" + fileName), new File(destinationFolder), false);
+            return "success";
+        }catch (IOException e){
+            return "false";
+        }
     }
 }

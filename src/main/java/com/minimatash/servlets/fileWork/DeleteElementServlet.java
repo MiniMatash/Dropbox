@@ -13,7 +13,7 @@ public class DeleteElementServlet extends HttpServlet {
         String currentLocation = request.getParameter("currentLocation").substring(5);
         String path = request.getSession().getAttribute("homePath")+currentLocation;
         try {
-            String result = FileWork.deleteFolder(path);
+            String result = FileWork.deleteElement(path);
             response.getWriter().write(result);
         } catch (IOException e) {
             e.printStackTrace();

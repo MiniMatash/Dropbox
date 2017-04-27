@@ -5,6 +5,18 @@
 </style>
 <html>
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery/jquery-2.1.3.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery/jquery-form.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery/jquery-validator.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery/jquery-validator-methods.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery/jquery-ui.js"></script>
+    <script type="text/javascript" src="/resources/js/display.js"></script>
+    <script type="text/javascript" src="/resources/js/getFileTree.js"></script>
+    <script type="text/javascript" src="/resources/js/getFileTreeOptions.js"></script>
+    <script type="text/javascript" src="/resources/js/logout.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Main page</title>
@@ -21,14 +33,4 @@
 <div id="fileTreeOptions" style="height: 50px"></div>
 <div id="filesBody"></div>
 </body>
-
-<script type="text/javascript" src="/resources/js/jquery/jquery-2.1.3.js"></script>
-<script type="text/javascript" src="/resources/js/jquery/jquery-form.js"></script>
-<script type="text/javascript" src="/resources/js/jquery/jquery-validator.js"></script>
-<script type="text/javascript" src="/resources/js/jquery/jquery-validator-methods.js"></script>
-<script type="text/javascript" src="/resources/js/jquery/jquery-ui.js"></script>
-<script type="text/javascript" src="/resources/js/display.js"></script>
-<script type="text/javascript" src="/resources/js/getFileTree.js"></script>
-<script type="text/javascript" src="/resources/js/getFileTreeOptions.js"></script>
-<script type="text/javascript" src="/resources/js/logout.js"></script>
 </html>

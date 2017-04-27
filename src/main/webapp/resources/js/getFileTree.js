@@ -15,29 +15,34 @@ function getFileTree() {
                 var tr;
                 var link = window.location.href + '/' + files[file].name;
                 if (files[file].type == "folder") {
-                    tr = $('<tr class="elem" ondblclick="doubleClickTreeWalker(\'' + link + '\')">').appendTo(table);
+                    tr = $('<tr class="elem" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)" ondblclick="doubleClickTreeWalker(\'' + link + '\')">').appendTo(table);
                 } else {
-                    tr = $('<tr class="elem">').appendTo(table);
+                    tr = $('<tr class="elem" draggable="true" ondragstart="drag(event)">').appendTo(table);
                 }
 
-                $(tr).append('<td><img src="/images/files/' + files[file].type + '.png">');
+                $(tr).append('<td class="ui-icon-image"><img class="ui-icon-image" src="/images/files/' + files[file].type + '.png"/>');
                 if (files[file].type == "folder") {
-                    $(tr).append($('<td style="text-align: center"><a id="path" href="' + window.location.pathname + "/" + files[file].name + '"><h3 style="display: inline-block;">' + files[file].name + '</h3></a>'));
+                    $(tr).append($('<td style="text-align: center"><a class="path" href="' + window.location.pathname + "/" + files[file].name + '"><h3 class="folderName" style="display: inline-block;">' + files[file].name + '</h3></a>'));
                 } else {
-                    $(tr).append($('<td style="text-align: center"><h3 id="fileName" onclick="OpenFile()">' + files[file].name + '</h3>'));
+                    $(tr).append($('<td style="text-align: center"><h3 class="fileName" onclick="OpenFile(this)">' + files[file].name + '</h3>'));
                 }
-                $(tr).append($('<td style="text-align: center"><h3>' + files[file].modificationDate + '</h3>'));
-                $(tr).append($('<td style="text-align: center"><h3>' + "--" + '</h3>'));
+                $(tr).append($('<td style="text-align: center"><h3 class="modificationDate">' + files[file].modificationDate + '</h3>'));
+                $(tr).append($('<td style="text-align: center"><h3 class="authorizationLevel">' + "--" + '</h3>'));
             }
             $(".elem").on("click", function () {
                 $(".elem").removeAttr("id");
                 $(this).attr("id", "selected");
-                $('#fileTreeOptions')
-                    .empty()
-                    .append($('<button class="downloadButton"><a href="/downloadFile'+window.location.pathname+'/'
-                        +$("#selected").find("#fileName")[0].innerHTML+'" download="'+$("#selected").find("#fileName")[0].innerHTML
-                        +'">Download</a></button>'))
-                    .append($('<button id="deleteButton" onclick="deleteElement()">Delete</button>'))
+                if ($("#selected").find(".fileName")[0] != undefined)
+                    $('#fileTreeOptions')
+                        .empty()
+                        .append($('<button class="downloadButton"><a href="/downloadFile' + window.location.pathname + '/'
+                            + $("#selected").find(".fileName")[0].innerHTML + '" download="' + $("#selected").find(".fileName")[0].innerHTML
+                            + '">Download</a></button>'))
+                        .append($('<button id="deleteButton" onclick="deleteElement()">Delete</button>'));
+                else
+                    $('#fileTreeOptions')
+                        .empty()
+                        .append($('<button id="deleteButton" onclick="deleteElement()">Delete</button>'))
             });
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -47,11 +52,30 @@ function getFileTree() {
     })
 }
 
-function doubleClickTreeWalker(a) {
-    window.location.href = a;
+
+function drag(ev) {
+    ev.dataTransfer.setData("fileName", ev.target.getElementsByClassName("fileName")[0].innerHTML);
+    ev.dataTransfer.setDragImage(ev.target.getElementsByClassName("ui-icon-image")[0].firstChild.cloneNode(false), 0, 0);
 }
 
-function OpenFile() {
-    window.location='/downloadFile'+window.location.pathname+'/'
-    +$("#selected").find("#fileName")[0].innerHTML;
+function drop(ev) {
+    $.ajax({
+        url: "/moveElement",
+        method: "POST",
+        data: {
+            currentPath: window.location.pathname,
+            fileName: ev.dataTransfer.getData("fileName"),
+            destination: ev.target.innerHTML
+        },
+        success: function () {
+            $('#filesBody').empty();
+            $('#fileTreeOptions').empty();
+            getFileTree();
+        }
+    });
 }
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+

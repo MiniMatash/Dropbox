@@ -1,6 +1,5 @@
 package com.minimatash.servlets;
 
-import com.minimatash.fileStructure.FileWork;
 import com.minimatash.servlets.fileWork.*;
 import com.minimatash.servlets.loginSystem.LoginServlet;
 import com.minimatash.servlets.loginSystem.LogoutServlet;
@@ -18,7 +17,7 @@ public class MainServlet extends HttpServlet {
 
     public static final String dropboxPath = "/home/" + System.getProperty("user.name") + "/dropbox/" ;
 
-    Map<String, HttpServlet> servletMap = new HashMap<String, HttpServlet>();
+    private Map<String, HttpServlet> servletMap = new HashMap<String, HttpServlet>();
 
     {
         servletMap.put("/", new LoginServlet());
@@ -30,6 +29,7 @@ public class MainServlet extends HttpServlet {
         servletMap.put("/deleteElement", new DeleteElementServlet());
         servletMap.put("/uploadFile", new UploadFileServlet());
         servletMap.put("/downloadFile", new DownloadFileServlet());
+        servletMap.put("/moveElement", new MoveElementServlet());
     }
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
