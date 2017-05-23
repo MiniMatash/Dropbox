@@ -1,7 +1,8 @@
 package com.minimatash.servlets.fileWork;
 
 import com.google.gson.Gson;
-import com.minimatash.fileStructure.FileWork;
+import com.minimatash.service.FileWorkService;
+import com.minimatash.service.impl.FileWorkServiceImpl;
 import com.minimatash.servlets.MainServlet;
 
 import javax.servlet.http.HttpServlet;
@@ -12,15 +13,18 @@ import java.util.List;
 import java.util.Map;
 
 public class GetFileTreeServlet extends HttpServlet {
+
+    private FileWorkService fileWork = new FileWorkServiceImpl();
+
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
             List<Map<String, String>> files = null;
             String path = MainServlet.dropboxPath + request.getSession().getAttribute("login");
             if (!request.getParameter("path").equals("/home")) {
-                files = FileWork.getFileTree(path + request.getParameter("path").substring(5));
+                files = fileWork.getFileTree(path + request.getParameter("path").substring(5));
             } else {
-                if(FileWork.checkExistence(path))
-                files = FileWork.getFileTree(path);
+                if(fileWork.checkExistence(path))
+                files = fileWork.getFileTree(path);
             }
             if(files!=null) {
                 String json = new Gson().toJson(files);

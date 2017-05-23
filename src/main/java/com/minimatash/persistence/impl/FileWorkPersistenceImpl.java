@@ -1,29 +1,40 @@
-package com.minimatash.fileStructure;
+package com.minimatash.persistence.impl;
 
+import com.minimatash.persistence.FileWorkPersistence;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class FileWork {
-    public static void createUserFolder(String login) throws IOException {
+
+public class FileWorkPersistenceImpl implements FileWorkPersistence {
+
+    @Override
+    public void createUserFolder(String login) throws IOException {
         Path userPath = Paths.get(System.getProperty("user.home") + "/dropbox/" + login);
         Files.createDirectory(userPath);
         Path firstFilePath = Paths.get(System.getProperty("user.home") + "/dropbox/" + login + "/README.txt");
         Files.createFile(firstFilePath);
     }
 
-    public static Boolean checkExistence(String url){
+    @Override
+    public Boolean checkExistence(String url){
         File dir = new File(url);
         File[] files = dir.listFiles();
         return files != null;
     }
 
-    public static List<Map<String, String>> getFileTree(String url) throws IOException {
+    @Override
+    public List<Map<String, String>> getFileTree(String url) throws IOException {
         List<Map<String, String>> result = new ArrayList<>();
         File dir = new File(url);
         File[] files = dir.listFiles();
@@ -48,7 +59,8 @@ public class FileWork {
         return result;
     }
 
-    public static String createFolder(String path) throws IOException {
+    @Override
+    public String createFolder(String path) throws IOException {
         if (!Files.exists(Paths.get(path))) {
             Files.createDirectory(Paths.get(path));
             return "success";
@@ -57,7 +69,8 @@ public class FileWork {
         }
     }
 
-    public static String deleteElement(String path) throws IOException {
+    @Override
+    public String deleteElement(String path) throws IOException {
         if (Files.exists(Paths.get(path))) {
             if(new File(path).isDirectory()){
                 FileUtils.deleteDirectory(new File(path));
@@ -70,7 +83,8 @@ public class FileWork {
         }
     }
 
-    public static String uploadFile(List<FileItem> items, String path) throws Exception {
+    @Override
+    public String uploadFile(List<FileItem> items, String path) throws Exception {
         String currentLocation;
         File file;
         FileItem fileItem = null;
@@ -93,7 +107,8 @@ public class FileWork {
         return "Something wrong, contact administrator";
     }
 
-    public static String moveElement(String sourceFolder, String destinationFolder, String fileName){
+    @Override
+    public String moveElement(String sourceFolder, String destinationFolder, String fileName){
         try {
             FileUtils.moveFileToDirectory(new File(sourceFolder + "/" + fileName), new File(destinationFolder), false);
             return "success";

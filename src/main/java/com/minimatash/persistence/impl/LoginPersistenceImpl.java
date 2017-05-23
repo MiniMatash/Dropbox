@@ -1,12 +1,15 @@
 package com.minimatash.persistence.impl;
 
-import com.minimatash.fileStructure.FileWork;
 import com.minimatash.persistence.LoginPersistence;
+import com.minimatash.service.FileWorkService;
+import com.minimatash.service.impl.FileWorkServiceImpl;
 
 import java.io.IOException;
 import java.sql.*;
 
 public class LoginPersistenceImpl implements LoginPersistence {
+
+    private FileWorkService fileWork = new FileWorkServiceImpl();
 
     private Connection connection;
 
@@ -40,7 +43,7 @@ public class LoginPersistenceImpl implements LoginPersistence {
             preparedStatement2.setString(1,login);
             preparedStatement2.setInt(2,password);
             preparedStatement2.execute();
-            FileWork.createUserFolder(login);
+            fileWork.createUserFolder(login);
             return true;
         }
     }

@@ -17,7 +17,7 @@ public class MainServlet extends HttpServlet {
 
     public static final String dropboxPath = "/home/" + System.getProperty("user.name") + "/dropbox/" ;
 
-    private Map<String, HttpServlet> servletMap = new HashMap<String, HttpServlet>();
+    private Map<String, HttpServlet> servletMap = new HashMap<>();
 
     {
         servletMap.put("/", new LoginServlet());
@@ -32,16 +32,17 @@ public class MainServlet extends HttpServlet {
         servletMap.put("/moveElement", new MoveElementServlet());
     }
 
-    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpServlet httpServlet = servletMap.get("/");
-        String uri = request.getRequestURI();
-        if(request.getSession().getAttribute("login") != null) {
-            if (uri.lastIndexOf("/") != 0) {
-                httpServlet = servletMap.get(uri.substring(0, uri.indexOf("/", 1)));
-            } else {
+        String uri = req.getRequestURI();
+        if((req.getSession().getAttribute("login") != null)||(uri.equals("/registration"))) {
+            if (uri.lastIndexOf('/') == 0) {
                 httpServlet = servletMap.get(uri);
+            } else {
+                httpServlet = servletMap.get(uri.substring(0, uri.indexOf('/', 1)));
             }
         }
-        httpServlet.service(request, response);
+        httpServlet.service(req, resp);
     }
 }

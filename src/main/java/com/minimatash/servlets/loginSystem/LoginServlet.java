@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-public class LoginServlet extends HttpServlet {
+public class  LoginServlet extends HttpServlet {
     private LoginService loginService = new LoginServiceImpl();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
