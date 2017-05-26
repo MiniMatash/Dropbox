@@ -53,3 +53,23 @@
 .ui-icon-image .fileName .folderName .path .modificationDate .authorizationLevel{
     pointer-events: none;
 }
+
+.fileName:hover{
+    text-decoration: underline;
+}
+
+.folderName:hover{
+    text-decoration: underline;
+}
+
+th{
+    text-align:center !important;
+}
+
+td{
+    text-align:center;
+}
+
+h3{
+    display: inline-block;
+}

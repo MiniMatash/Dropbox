@@ -19,11 +19,6 @@ public class FileWorkServiceImpl implements FileWorkService {
     }
 
     @Override
-    public Boolean checkExistence(String url) {
-        return fileWorkPersistence.checkExistence(url);
-    }
-
-    @Override
     public List<Map<String, String>> getFileTree(String url) throws IOException {
         return fileWorkPersistence.getFileTree(url);
     }

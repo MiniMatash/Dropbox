@@ -5,29 +5,31 @@ function getFileTree() {
         method: "GET",
         data: {path: window.location.pathname},
         success: function (files) {
-            var table = $("<table id='tableBody'>").appendTo($("#filesBody"));
-            $(table).append($('<tr><th width="10%"></th><th width="20%">Name</th><th width="15%">Changed date</th><th width="10%">Authorization level</th></tr>'));
+            var table = $("<table style='width:100%;' id='tableBody'>").appendTo($("#filesBody"));
+            $(table).append($('<thead><tr><th width="10%"><h3>Image</h3></th><th width="40%"><h3>Name</h3></th>' +
+                '<th width="30%"><h3>Changed date</h3></th><th width="20%"><h3>Authorization level</h3></th></tr></thead>'));
+            $(table).append($('<tbody>'));
             if (window.location.pathname != "/home")
-                $('<tr class="upper" style="text-align:center; height: 40px;" ondblclick="doubleClickTreeWalker(\'' +
+                $('<tr class="upper" id=" " style="height: 40px;" ondragover="allowDrop(event)" ondrop="drop(event)" ondblclick="doubleClickTreeWalker(\'' +
                     window.location.href.substring(0, window.location.href.lastIndexOf("/")) + '\')">').appendTo(table)
-                    .append('<td colspan="4"><a href="' + window.location.href.substring(0, window.location.href.lastIndexOf("/")) + '"><h3 style="display: inline-block;3">...</h3></a>');
+                    .append('<td colspan="4"><a href="' + window.location.href.substring(0, window.location.href.lastIndexOf("/")) + '"><h3>...</h3></a>');
             for (var file in files) {
                 var tr;
                 var link = window.location.href + '/' + files[file].name;
                 if (files[file].type == "folder") {
-                    tr = $('<tr class="elem" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)" ondblclick="doubleClickTreeWalker(\'' + link + '\')">').appendTo(table);
+                    tr = $('<tr class="elem" draggable="true" id="'+ files[file].name +'" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)" ondblclick="doubleClickTreeWalker(\'' + link + '\')">').appendTo(table);
                 } else {
-                    tr = $('<tr class="elem" draggable="true" ondragstart="drag(event)">').appendTo(table);
+                    tr = $('<tr class="elem" draggable="true" id="'+ files[file].name +'" ondragstart="drag(event)">').appendTo(table);
                 }
 
                 $(tr).append('<td class="ui-icon-image"><img class="ui-icon-image" src="/images/files/' + files[file].type + '.png"/>');
                 if (files[file].type == "folder") {
-                    $(tr).append($('<td style="text-align: center"><a class="path" href="' + window.location.pathname + "/" + files[file].name + '"><h3 class="folderName" style="display: inline-block;">' + files[file].name + '</h3></a>'));
+                    $(tr).append($('<td><a class="path" href="' + window.location.pathname + "/" + files[file].name + '"><h3 class="folderName">' + files[file].name + '</h3></a>'));
                 } else {
-                    $(tr).append($('<td style="text-align: center"><h3 class="fileName" onclick="OpenFile(this)">' + files[file].name + '</h3>'));
+                    $(tr).append($('<td><h3 class="fileName" onclick="OpenFile(this)">' + files[file].name + '</h3>'));
                 }
-                $(tr).append($('<td style="text-align: center"><h3 class="modificationDate">' + files[file].modificationDate + '</h3>'));
-                $(tr).append($('<td style="text-align: center"><h3 class="authorizationLevel">' + "--" + '</h3>'));
+                $(tr).append($('<td><h3 class="modificationDate">' + files[file].modificationDate + '</h3>'));
+                $(tr).append($('<td><h3 class="authorizationLevel">' + "--" + '</h3>'));
             }
             $(".elem").on("click", function () {
                 $(".elem").removeAttr("id");
@@ -54,18 +56,34 @@ function getFileTree() {
 
 
 function drag(ev) {
-    ev.dataTransfer.setData("fileName", ev.target.getElementsByClassName("fileName")[0].innerHTML);
+    var fileName = ev.target;
+    while(true){
+        if((fileName.id!="")&&(fileName.id!=undefined)){
+            break;
+        }else{
+            fileName=fileName.parentElement;
+        }
+    }
+    ev.dataTransfer.setData("fileName", fileName.id);
     ev.dataTransfer.setDragImage(ev.target.getElementsByClassName("ui-icon-image")[0].firstChild.cloneNode(false), 0, 0);
 }
 
 function drop(ev) {
+    var destination = ev.target;
+    while(true){
+        if((destination.id!=undefined)&&(destination.id!="")){
+            break;
+        }else{
+            destination=destination.parentElement;
+        }
+    }
     $.ajax({
         url: "/moveElement",
         method: "POST",
         data: {
             currentPath: window.location.pathname,
             fileName: ev.dataTransfer.getData("fileName"),
-            destination: ev.target.innerHTML
+            destination: destination.id
         },
         success: function () {
             $('#filesBody').empty();

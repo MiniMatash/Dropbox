@@ -3,6 +3,7 @@ package com.minimatash.servlets.loginSystem;
 import com.minimatash.encryption.Encrypt;
 import com.minimatash.service.LoginService;
 import com.minimatash.service.impl.LoginServiceImpl;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 public class RegistrationServlet extends HttpServlet {
 
     private LoginService loginService = new LoginServiceImpl();
+    private Logger logger = Logger.getLogger(this.getClass());
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(request.getSession().getAttribute("login")==null) {
@@ -26,7 +28,7 @@ public class RegistrationServlet extends HttpServlet {
             try {
                 response.sendRedirect("/home");
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(),e);
             }
         }
     }
@@ -47,7 +49,7 @@ public class RegistrationServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/jsp/registration.jsp").forward(request,response);
             }
         } catch (SQLException | IOException | ServletException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
     }
 }

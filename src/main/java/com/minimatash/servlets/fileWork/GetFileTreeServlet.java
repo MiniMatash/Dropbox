@@ -23,10 +23,9 @@ public class GetFileTreeServlet extends HttpServlet {
             if (!request.getParameter("path").equals("/home")) {
                 files = fileWork.getFileTree(path + request.getParameter("path").substring(5));
             } else {
-                if(fileWork.checkExistence(path))
                 files = fileWork.getFileTree(path);
             }
-            if(files!=null) {
+            if (files != null) {
                 String json = new Gson().toJson(files);
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");

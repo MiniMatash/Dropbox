@@ -1,6 +1,7 @@
 package com.minimatash;
 
 import com.minimatash.servlets.MainServlet;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -10,16 +11,18 @@ import java.nio.file.Paths;
 
 public class StartupPlain implements ServletContextListener {
 
+    private Logger logger = Logger.getLogger(this.getClass());
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         if(!Files.exists(Paths.get(MainServlet.dropboxPath))){
             try {
                 Files.createDirectories(Paths.get(MainServlet.dropboxPath));
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(),e);
             }
         }
-        System.out.println("Starting up!");
+        logger.info("Starting up!");
     }
 
     @Override

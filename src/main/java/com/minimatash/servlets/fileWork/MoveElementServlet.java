@@ -15,7 +15,11 @@ public class MoveElementServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
         String sourcePath = MainServlet.dropboxPath + request.getSession().getAttribute("login")+request.getParameter("currentPath").substring(5);
-        String destinationPath = MainServlet.dropboxPath + request.getSession().getAttribute("login")+"/"+request.getParameter("destination");
+        String destinationPath;
+        if(request.getParameter("destination").equals(" "))
+            destinationPath = MainServlet.dropboxPath + request.getSession().getAttribute("login");
+        else
+            destinationPath = MainServlet.dropboxPath + request.getSession().getAttribute("login")+"/"+request.getParameter("destination");
         String fileName = request.getParameter("fileName");
         String result = fileWork.moveElement(sourcePath,destinationPath,fileName);
         try {

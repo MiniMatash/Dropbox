@@ -2,6 +2,7 @@ package com.minimatash.servlets.fileWork;
 
 import com.minimatash.servlets.MainServlet;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +17,8 @@ import java.nio.file.Paths;
  */
 public class DownloadFileServlet extends HttpServlet{
 
+    private Logger logger = Logger.getLogger(this.getClass());
+
     public void doGet(HttpServletRequest request, HttpServletResponse response){
         try {
             String uri = request.getRequestURI();
@@ -23,19 +26,21 @@ public class DownloadFileServlet extends HttpServlet{
             String filePath = MainServlet.dropboxPath + request.getSession().getAttribute("login")+
                     uri.replace("/downloadFile/home","");
             String mimeType = Files.probeContentType(Paths.get(filePath));
-            response.setContentType(mimeType);
-            response.setHeader( "Content-Disposition", "filename=\"" + fileName+"\"");
-            response.setHeader("Set-Cookie", "fileDownload=true; path=/");
-            response.setHeader("Content-Transfer-Encoding", "binary");
+
             File file = new File(filePath);
-            response.setHeader("Content-Length",Long.toString(file.length()));
             FileInputStream fileInputStream  = new FileInputStream(file);
             ServletOutputStream servletOutputStream = response.getOutputStream();
             IOUtils.copy(fileInputStream,servletOutputStream);
             servletOutputStream.flush();
             servletOutputStream.close();
-        }catch (Exception e){
 
+            response.setContentType(mimeType);
+            response.setHeader( "Content-Disposition", "filename=\"" + fileName+"\"");
+            response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setHeader("Content-Length",Long.toString(file.length()));
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
         }
     }
 }

@@ -27,35 +27,30 @@ public class FileWorkPersistenceImpl implements FileWorkPersistence {
     }
 
     @Override
-    public Boolean checkExistence(String url){
-        File dir = new File(url);
-        File[] files = dir.listFiles();
-        return files != null;
-    }
-
-    @Override
     public List<Map<String, String>> getFileTree(String url) throws IOException {
         List<Map<String, String>> result = new ArrayList<>();
         File dir = new File(url);
         File[] files = dir.listFiles();
-        for (File file : files) {
-            Map<String, String> elem = new HashMap<>();
-            elem.put("name", file.getName());
-            if (file.getName().contains(".")) {
-                String type =  Files.probeContentType(Paths.get(file.getAbsolutePath()));
-                if(type.contains("application")){
-                    type = type.substring(type.indexOf("/")+1);
-                }else{
-                    type = type.substring(0,type.indexOf("/"));
+
+        if (files != null)
+            for (File file : files) {
+                Map<String, String> elem = new HashMap<>();
+                elem.put("name", file.getName());
+                if (file.getName().contains(".")) {
+                    String type = Files.probeContentType(Paths.get(file.getAbsolutePath()));
+                    if (type.contains("application")) {
+                        type = type.substring(type.indexOf("/") + 1);
+                    } else {
+                        type = type.substring(0, type.indexOf("/"));
+                    }
+                    elem.put("type", type);
+                } else {
+                    elem.put("type", "folder");
                 }
-                elem.put("type",type);
-            } else {
-                elem.put("type", "folder");
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                elem.put("modificationDate", sdf.format(file.lastModified()));
+                result.add(elem);
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            elem.put("modificationDate", sdf.format(file.lastModified()));
-            result.add(elem);
-        }
         return result;
     }
 
@@ -71,12 +66,9 @@ public class FileWorkPersistenceImpl implements FileWorkPersistence {
 
     @Override
     public String deleteElement(String path) throws IOException {
-        if (Files.exists(Paths.get(path))) {
-            if(new File(path).isDirectory()){
-                FileUtils.deleteDirectory(new File(path));
-            }else {
-                Files.delete(Paths.get(path));
-            }
+        Path currentPath = Paths.get(path);
+        if (Files.exists(currentPath)) {
+            Files.delete(currentPath);
             return "success";
         } else {
             return "error";
@@ -97,9 +89,9 @@ public class FileWorkPersistenceImpl implements FileWorkPersistence {
             }
         }
         if (fileItem != null) {
-            String filePath = path +"/"+ fileItem.getName();
-            if(new File(filePath).exists())
-                return "File with name "+ fileItem.getName() +" already exist";
+            String filePath = path + "/" + fileItem.getName();
+            if (new File(filePath).exists())
+                return "File with name " + fileItem.getName() + " already exist";
             file = new File(filePath);
             fileItem.write(file);
             return "success";
@@ -108,11 +100,11 @@ public class FileWorkPersistenceImpl implements FileWorkPersistence {
     }
 
     @Override
-    public String moveElement(String sourceFolder, String destinationFolder, String fileName){
+    public String moveElement(String sourceFolder, String destinationFolder, String fileName) {
         try {
-            FileUtils.moveFileToDirectory(new File(sourceFolder + "/" + fileName), new File(destinationFolder), false);
+            Files.move(Paths.get(sourceFolder+"/"+fileName),Paths.get(destinationFolder+"/"+fileName));
             return "success";
-        }catch (IOException e){
+        } catch (IOException e) {
             return "false";
         }
     }
