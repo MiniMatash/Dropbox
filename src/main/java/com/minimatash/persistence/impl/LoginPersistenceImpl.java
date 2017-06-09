@@ -18,6 +18,7 @@ public class LoginPersistenceImpl implements LoginPersistence {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/dropbox","root","qwerty");
     }
 
+    @Override
     public Boolean getLog(String login, Integer password) throws SQLException {
         connection = getConnection();
         String selectUserSQL = "Select * from loginPage WHERE login = ? AND password = ?";

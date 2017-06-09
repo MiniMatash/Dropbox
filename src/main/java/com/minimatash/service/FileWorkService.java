@@ -10,7 +10,7 @@ public interface FileWorkService {
 
     void createUserFolder(String login) throws IOException;
 
-    List<Map<String, String>> getFileTree(String url) throws IOException;
+    List<Map<String, String>> getFileTree(String path) throws IOException;
 
     String createFolder(String path) throws IOException;
 

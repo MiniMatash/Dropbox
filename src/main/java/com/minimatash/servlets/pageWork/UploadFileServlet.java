@@ -1,4 +1,4 @@
-package com.minimatash.servlets.fileWork;
+package com.minimatash.servlets.pageWork;
 
 import com.minimatash.service.FileWorkService;
 import com.minimatash.service.impl.FileWorkServiceImpl;
@@ -26,9 +26,13 @@ public class UploadFileServlet extends HttpServlet {
                 List<FileItem> items = upload.parseRequest(request);
                 String path = request.getSession().getAttribute("homePath").toString();
                 String result = fileWork.uploadFile(items,path);
-                response.setHeader("uploadResult",result);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"result\":\""+result+"\"}");
+                if(result.equals("fail")){
+                    response.setStatus(500);
+                }else {
+                    response.setHeader("uploadResult", result);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"result\":\"" + result + "\"}");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

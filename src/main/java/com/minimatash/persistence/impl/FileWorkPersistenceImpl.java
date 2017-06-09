@@ -27,13 +27,15 @@ public class FileWorkPersistenceImpl implements FileWorkPersistence {
     }
 
     @Override
-    public List<Map<String, String>> getFileTree(String url) throws IOException {
+    public List<Map<String, String>> getFileTree(String path) throws IOException {
         List<Map<String, String>> result = new ArrayList<>();
-        File dir = new File(url);
+        File dir = new File(path);
         File[] files = dir.listFiles();
 
         if (files != null)
             for (File file : files) {
+                if (file.isHidden())
+                    continue;
                 Map<String, String> elem = new HashMap<>();
                 elem.put("name", file.getName());
                 if (file.getName().contains(".")) {
@@ -102,7 +104,7 @@ public class FileWorkPersistenceImpl implements FileWorkPersistence {
     @Override
     public String moveElement(String sourceFolder, String destinationFolder, String fileName) {
         try {
-            Files.move(Paths.get(sourceFolder+"/"+fileName),Paths.get(destinationFolder+"/"+fileName));
+            Files.move(Paths.get(sourceFolder + "/" + fileName), Paths.get(destinationFolder + "/" + fileName));
             return "success";
         } catch (IOException e) {
             return "false";

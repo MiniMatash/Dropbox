@@ -1,4 +1,4 @@
-package com.minimatash.servlets.fileWork;
+package com.minimatash.servlets.pageWork;
 
 import com.minimatash.servlets.MainServlet;
 import org.apache.commons.io.IOUtils;

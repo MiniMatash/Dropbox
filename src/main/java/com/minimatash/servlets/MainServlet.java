@@ -1,9 +1,9 @@
 package com.minimatash.servlets;
 
-import com.minimatash.servlets.fileWork.*;
-import com.minimatash.servlets.loginSystem.LoginServlet;
-import com.minimatash.servlets.loginSystem.LogoutServlet;
-import com.minimatash.servlets.loginSystem.RegistrationServlet;
+import com.minimatash.servlets.pageLoaders.MainPageServlet;
+import com.minimatash.servlets.pageLoaders.LoginServlet;
+import com.minimatash.servlets.pageLoaders.RegistrationServlet;
+import com.minimatash.servlets.pageWork.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

@@ -19,8 +19,8 @@ public class FileWorkServiceImpl implements FileWorkService {
     }
 
     @Override
-    public List<Map<String, String>> getFileTree(String url) throws IOException {
-        return fileWorkPersistence.getFileTree(url);
+    public List<Map<String, String>> getFileTree(String path) throws IOException {
+        return fileWorkPersistence.getFileTree(path);
     }
 
     @Override

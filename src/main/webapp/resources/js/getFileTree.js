@@ -17,19 +17,17 @@ function getFileTree() {
                 var tr;
                 var link = window.location.href + '/' + files[file].name;
                 if (files[file].type == "folder") {
-                    tr = $('<tr class="elem" draggable="true" id="'+ files[file].name +'" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)" ondblclick="doubleClickTreeWalker(\'' + link + '\')">').appendTo(table);
-                } else {
-                    tr = $('<tr class="elem" draggable="true" id="'+ files[file].name +'" ondragstart="drag(event)">').appendTo(table);
+                    tr = $('<tr class="elem" draggable="true" id="' + files[file].name + '" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)" ondblclick="doubleClickTreeWalker(\'' + link + '\')">').appendTo(table);
+                    displayInfo(tr, files[file]);
                 }
-
-                $(tr).append('<td class="ui-icon-image"><img class="ui-icon-image" src="/images/files/' + files[file].type + '.png"/>');
-                if (files[file].type == "folder") {
-                    $(tr).append($('<td><a class="path" href="' + window.location.pathname + "/" + files[file].name + '"><h3 class="folderName">' + files[file].name + '</h3></a>'));
-                } else {
-                    $(tr).append($('<td><h3 class="fileName" onclick="OpenFile(this)">' + files[file].name + '</h3>'));
+            }
+            for (var file in files) {
+                var tr;
+                var link = window.location.href + '/' + files[file].name;
+                if (files[file].type != "folder") {
+                    tr = $('<tr class="elem" draggable="true" id="' + files[file].name + '" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)" ondblclick="doubleClickTreeWalker(\'' + link + '\')">').appendTo(table);
+                    displayInfo(tr, files[file]);
                 }
-                $(tr).append($('<td><h3 class="modificationDate">' + files[file].modificationDate + '</h3>'));
-                $(tr).append($('<td><h3 class="authorizationLevel">' + "--" + '</h3>'));
             }
             $(".elem").on("click", function () {
                 $(".elem").removeAttr("id");
@@ -54,6 +52,17 @@ function getFileTree() {
     })
 }
 
+
+function displayInfo(tr,file){
+    $(tr).append('<td class="ui-icon-image"><img class="ui-icon-image" src="/images/files/' + file.type + '.png"/>');
+    if (file.type == "folder") {
+        $(tr).append($('<td><a class="path" href="' + window.location.pathname + "/" + file.name + '"><h3 class="folderName">' + file.name + '</h3></a>'));
+    } else {
+        $(tr).append($('<td><h3 class="fileName" onclick="OpenFile(this)">' + file.name + '</h3>'));
+    }
+    $(tr).append($('<td><h3 class="modificationDate">' + file.modificationDate + '</h3>'));
+    $(tr).append($('<td><h3 class="authorizationLevel">' + "--" + '</h3>'));
+}
 
 function drag(ev) {
     var fileName = ev.target;

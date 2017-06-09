@@ -1,4 +1,4 @@
-package com.minimatash.servlets;
+package com.minimatash.servlets.pageLoaders;
 
 import org.apache.log4j.Logger;
 
@@ -14,11 +14,7 @@ public class MainPageServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-            if(request.getSession().getAttribute("login")!=null) {
-                request.getRequestDispatcher("/WEB-INF/jsp/mainPage.jsp").forward(request, response);
-            }else{
-                response.sendRedirect("/");
-            }
+            request.getRequestDispatcher("/WEB-INF/jsp/mainPage.jsp").forward(request, response);
         } catch (IOException | ServletException e) {
             logger.error(e.getMessage(),e);
         }

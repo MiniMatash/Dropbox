@@ -1,4 +1,4 @@
-package com.minimatash.servlets.fileWork;
+package com.minimatash.servlets.pageWork;
 
 import com.google.gson.Gson;
 import com.minimatash.service.FileWorkService;

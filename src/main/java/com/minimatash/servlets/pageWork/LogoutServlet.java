@@ -1,4 +1,4 @@
-package com.minimatash.servlets.loginSystem;
+package com.minimatash.servlets.pageWork;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

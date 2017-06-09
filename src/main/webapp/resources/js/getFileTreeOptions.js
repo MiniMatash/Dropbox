@@ -54,9 +54,8 @@ function uploadFile() {
         success: function (result) {
             reload(".uploadFile", result.result);
         },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
+        error: function () {
+            alert("File with name "+$("#file")[0].files[0].name+" already exist");
         }
     })
 
@@ -80,13 +79,10 @@ function deleteElement() {
                         data: {currentLocation: path},
                         success: function (result) {
                             reload(".deleteElement", result);
-                            if (result.result == "success") {
-                                $("#deleteButton").hide();
-                            }
+                            $("#deleteButton").hide();
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(thrownError);
+                            reload(".deleteElement", "error");
                         }
                     })
                 }

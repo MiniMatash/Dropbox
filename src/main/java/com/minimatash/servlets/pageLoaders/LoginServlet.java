@@ -1,4 +1,4 @@
-package com.minimatash.servlets.loginSystem;
+package com.minimatash.servlets.pageLoaders;
 
 import com.minimatash.encryption.Encrypt;
 import com.minimatash.service.LoginService;
