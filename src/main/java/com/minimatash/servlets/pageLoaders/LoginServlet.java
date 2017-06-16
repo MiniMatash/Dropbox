@@ -37,7 +37,7 @@ public class  LoginServlet extends HttpServlet {
             String login = request.getParameter("login");
             try {
                 Integer password = Encrypt.encrypt(request.getParameter("password")).hashCode();
-                if (loginService.getLog(login, password)) {
+                if (loginService.login(login, password)) {
                     request.getSession();
                     request.getSession().setAttribute("login",login);
                     request.getSession().setAttribute("password",password);

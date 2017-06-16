@@ -14,8 +14,8 @@ public class LoginServiceImpl implements LoginService {
 
     LoginPersistence loginPersistence = new LoginPersistenceImpl();
 
-    public Boolean getLog(String login, Integer password) throws SQLException {
-        return loginPersistence.getLog(login, password);
+    public Boolean login(String login, Integer password) throws SQLException {
+        return loginPersistence.login(login, password);
     }
 
     public Boolean registerLog(String login, Integer password) throws SQLException, IOException {

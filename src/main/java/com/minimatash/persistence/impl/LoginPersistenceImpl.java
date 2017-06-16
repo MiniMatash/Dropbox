@@ -3,6 +3,7 @@ package com.minimatash.persistence.impl;
 import com.minimatash.persistence.LoginPersistence;
 import com.minimatash.service.FileWorkService;
 import com.minimatash.service.impl.FileWorkServiceImpl;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.*;
@@ -10,7 +11,7 @@ import java.sql.*;
 public class LoginPersistenceImpl implements LoginPersistence {
 
     private FileWorkService fileWork = new FileWorkServiceImpl();
-
+    private Logger logger = Logger.getLogger(this.getClass());
     private Connection connection;
 
     private Connection getConnection() throws SQLException {
@@ -19,13 +20,13 @@ public class LoginPersistenceImpl implements LoginPersistence {
     }
 
     @Override
-    public Boolean getLog(String login, Integer password) throws SQLException {
+    public Boolean login(String login, Integer password) throws SQLException {
         connection = getConnection();
-        String selectUserSQL = "Select * from loginPage WHERE login = ? AND password = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(selectUserSQL);
-        preparedStatement.setString(1,login);
-        preparedStatement.setInt(2,password);
-        ResultSet rs = preparedStatement.executeQuery();
+            String selectUserSQL = "Select * from loginPage WHERE login = ? AND password = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(selectUserSQL);
+            preparedStatement.setString(1,login);
+            preparedStatement.setInt(2,password);
+            ResultSet rs = preparedStatement.executeQuery();
         return rs.next();
     }
 
