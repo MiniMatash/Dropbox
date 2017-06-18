@@ -9,13 +9,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainServlet extends HttpServlet {
 
-    public static final String dropboxPath = "/home/" + System.getProperty("user.name") + "/dropbox/" ;
+    public static final String dropboxPath = System.getProperty("user.home") + File.separator +"dropbox" + File.separator ;
 
     private Map<String, HttpServlet> servletMap = new HashMap<>();
 

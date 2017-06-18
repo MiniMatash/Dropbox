@@ -15,7 +15,7 @@ public class LoginPersistenceImpl implements LoginPersistence {
 
     private Connection getConnection() throws SQLException {
         DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/dropbox","root","qwerty");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/dropbox","admin","qwerty");
     }
 
     public Boolean getLog(String login, Integer password) throws SQLException {

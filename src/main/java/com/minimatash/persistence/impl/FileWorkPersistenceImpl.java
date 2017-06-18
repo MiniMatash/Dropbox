@@ -20,9 +20,10 @@ public class FileWorkPersistenceImpl implements FileWorkPersistence {
 
     @Override
     public void createUserFolder(String login) throws IOException {
-        Path userPath = Paths.get(System.getProperty("user.home") + "/dropbox/" + login);
+        Path userPath = Paths.get(System.getProperty("user.home") + File.separator + "dropbox" + File.separator + login);
         Files.createDirectory(userPath);
-        Path firstFilePath = Paths.get(System.getProperty("user.home") + "/dropbox/" + login + "/README.txt");
+        Path firstFilePath = Paths.get(System.getProperty("user.home") + File.separator + "dropbox" +
+                File.separator  + login + File.separator + "README.txt");
         Files.createFile(firstFilePath);
     }
 
@@ -88,16 +89,18 @@ public class FileWorkPersistenceImpl implements FileWorkPersistence {
         String currentLocation;
         File file;
         FileItem fileItem = null;
+        StringBuilder pathBuilder = new StringBuilder(path);
         for (FileItem elem : items) {
             if (elem.isFormField() && elem.getFieldName().equals("path")) {
                 currentLocation = elem.getString().substring(5);
-                path += currentLocation;
+                pathBuilder.append(currentLocation);
             } else {
                 fileItem = elem;
             }
         }
+        path = pathBuilder.toString();
         if (fileItem != null) {
-            String filePath = path +"/"+ fileItem.getName();
+            String filePath = path + File.separator + fileItem.getName();
             if(new File(filePath).exists())
                 return "File with name "+ fileItem.getName() +" already exist";
             file = new File(filePath);
@@ -110,7 +113,7 @@ public class FileWorkPersistenceImpl implements FileWorkPersistence {
     @Override
     public String moveElement(String sourceFolder, String destinationFolder, String fileName){
         try {
-            FileUtils.moveFileToDirectory(new File(sourceFolder + "/" + fileName), new File(destinationFolder), false);
+            FileUtils.moveFileToDirectory(new File(sourceFolder + File.separator + fileName), new File(destinationFolder), false);
             return "success";
         }catch (IOException e){
             return "false";
