@@ -10,10 +10,10 @@
     <script type="text/javascript" src="/resources/js/jquery/jquery-form.js"></script>
     <script type="text/javascript" src="/resources/js/jquery/jquery-validator.js"></script>
     <script type="text/javascript" src="/resources/js/jquery/jquery-validator-methods.js"></script>
-    <script type="text/javascript" src="/resources/js/jquery/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery/jquery-ui.js"></script>
     <script type="text/javascript" src="/resources/js/display.js"></script>
     <script type="text/javascript" src="/resources/js/getFileTree.js"></script>
     <script type="text/javascript" src="/resources/js/getFileTreeOptions.js"></script>
@@ -24,10 +24,10 @@
 </head>
 <body>
 <div id="header">
-    <a href="./home">
+    <a href="/">
         <div id="homeButton"></div>
     </a>
-    <div id="headerBody"><h2>Dropbox</h2></div>
+    <div id="headerBody"><h2>WorkBox</h2></div>
     <button id="logout" onclick="logout()">Logout</button>
 </div>
 <div id="fileOptions"></div>

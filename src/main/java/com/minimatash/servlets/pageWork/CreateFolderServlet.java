@@ -20,7 +20,7 @@ public class CreateFolderServlet extends HttpServlet {
         String path = request.getSession().getAttribute("homePath")+currentLocation+"/"+folderName;
         try {
             String result = fileWork.createFolder(path);
-            if(result.equals("success")){
+            if(result.equals("success")||(result.equals("folder already exist"))){
                 response.setStatus(200);
             }else {
                 response.setStatus(500);

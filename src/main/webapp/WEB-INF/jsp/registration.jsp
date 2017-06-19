@@ -14,32 +14,26 @@
         <tr>
             <th><h3>Login</h3></th>
         </tr>
-            <c:choose>
-            <c:when test="${empty failedLogin}">
-        <tr>
-            <td><input class="input" type="text" name="registerLogin" value='' maxlength="30" required></td>
-        </tr>
-        <tr>
-            <th><h3>Password</h3></th>
-        </tr>
-        <tr>
-            <td><input type="password" name="registerPassword" maxlength="30" required></td>
-        </tr>
+        <c:choose>
+        <c:when test="${empty failedLogin}">
+            <tr>
+                <td><input class="input" type="text" name="registerLogin" value='' maxlength="30" required></td>
+            </tr>
         </c:when>
         <c:otherwise>
         <tr>
             <td><input type="text" name="registerLogin" value="${failedLogin}" maxlength="30" required></td>
         </tr>
         <tr>
+            <td><span style="color: red">login already used</span></td>
+            </c:otherwise>
+            </c:choose>
+        </tr>
+        <tr>
             <th><h3>Password</h3></th>
         </tr>
         <tr>
             <td><input type="password" name="registerPassword" maxlength="30" required value=""></td>
-        </tr>
-        <tr>
-            <td><span style="color: red">login already used</span></td>
-            </c:otherwise>
-            </c:choose>
         </tr>
     </table>
     <input type="submit" value="Register">

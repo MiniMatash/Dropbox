@@ -69,6 +69,7 @@ function deleteElement() {
         path = window.location.pathname + "/" + $("#selected").find(".fileName")[0].innerHTML;
     $("deleteElement").removeAttr("hidden");
     $(".deleteElement").dialog({
+        modal: true,
         buttons: [
             {
                 text: "Ok",
