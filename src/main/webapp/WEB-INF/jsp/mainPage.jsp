@@ -28,7 +28,7 @@
         <div id="homeButton"></div>
     </a>
     <div id="headerBody"><h2>Dropbox</h2></div>
-    <button id="logout" style="position:absolute;left: 90%;" onclick="logout()">Logout</button>
+    <button id="logout" onclick="logout()">Logout</button>
 </div>
 <div id="fileOptions"></div>
 <div id="fileTreeOptions" style="height: 50px"></div>

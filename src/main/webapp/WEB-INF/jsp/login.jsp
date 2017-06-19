@@ -15,6 +15,7 @@
     <table class="table">
         <tr>
             <th><h3>Login</h3></th>
+        </tr>
             <c:choose>
             <c:when test="${empty failedLogin}">
         <tr>
@@ -31,7 +32,10 @@
             <td><input type="text" name="login" value="${failedLogin}" maxlength="30" required></td>
         </tr>
         <tr>
-            <td><input type="password" name="password" maxlength="30" required></td>
+            <th><h3>Password</h3></th>
+        </tr>
+        <tr>
+            <td><input type="password" name="password" maxlength="30" required value=""></td>
         </tr>
         <tr>
             <td><span style="color: red">wrong login or password</span></td>
@@ -39,7 +43,7 @@
             </c:choose>
         </tr>
     </table>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Login">
 </form>
 <button onclick="window.location.href ='/registration'">Register</button>
 </body>
